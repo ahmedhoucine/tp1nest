@@ -17,10 +17,10 @@ import { TodoModule } from './todo/todo.module';
       username: 'postgres',
       password: 'serpent00',
       database: 'todo',
-      entities: [TodoEntity],
+      autoLoadEntities:true,
       synchronize: true, 
     }),
-    TypeOrmModule.forFeature([TodoEntity]), 
+    
   ],
   controllers: [AppController],
   providers: [AppService],

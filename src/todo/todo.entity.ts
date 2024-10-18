@@ -1,4 +1,3 @@
-// src/todo/todo.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { StatusEnum } from './status.enum';
 import { BaseEntity } from './BaseEntity';

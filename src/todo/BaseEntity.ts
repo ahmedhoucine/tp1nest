@@ -1,14 +1,12 @@
 import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 export abstract class BaseEntity {
-  @CreateDateColumn({ type: 'timestamptz' })  // Automatically sets the creation date
+  @CreateDateColumn({ update: false })  
   createdAt: Date;
 
-   // Automatically updated whenever the entity is updated
-   @UpdateDateColumn({ type: 'timestamptz' })
+   @UpdateDateColumn()
    updatedAt: Date;
  
-   // Used to mark the entity as "soft deleted", but not physically removed
-   @DeleteDateColumn({ type: 'timestamptz' })
+   @DeleteDateColumn()
    deletedAt: Date | null;;
 }

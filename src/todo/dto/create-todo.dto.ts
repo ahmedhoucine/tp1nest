@@ -1,5 +1,5 @@
 import { IsString, Length, IsNotEmpty } from 'class-validator';
-import { StatusEnum } from '../status.enum'; // Import the StatusEnum if you have it
+import { StatusEnum } from '../status.enum';
 
 export class CreateTodoDto {
   @IsString()
@@ -12,5 +12,5 @@ export class CreateTodoDto {
   @Length(10, 255, { message: 'La description doit contenir au moins 10 caractères' })
   description: string;
 
-  status?: StatusEnum; // Optional status field, could be further validated if needed
+  status?: StatusEnum; 
 }

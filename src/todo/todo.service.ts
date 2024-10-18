@@ -1,4 +1,3 @@
-// src/todo/todo.service.ts
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -22,7 +21,7 @@ export class TodoService {
     limit: number = 10,
   ): Promise<{ todos: TodoEntity[]; total: number }> {
     // Validate that if name or description is provided, status must also be present
-    if ((name || description) && !status) {
+    if (!((name || description) && status)) {
       throw new BadRequestException('Status must be provided if name or description is specified.');
     }
 
@@ -58,11 +57,23 @@ export class TodoService {
 
     return { todos, total };
   }
-  async getAllTodos(): Promise<TodoEntity[]> {
-    return this.todoRepository.find(); 
+ 
+
+  async getAllTodos(
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<{ todos: TodoEntity[]; total: number }> {
+    const query = this.todoRepository.createQueryBuilder('todo');
+    const todo =  this.todoRepository.find(); 
+    query.skip((page - 1) * limit).take(limit);
+
+    const todos = await query.getMany();
+    const total = await query.getCount();
+    return {todos,total}
+
   }
 
-  create(createTodoDto: CreateTodoDto): Promise<TodoEntity> {
+  addTodo(createTodoDto: CreateTodoDto): Promise<TodoEntity> {
     const todo = this.todoRepository.create(createTodoDto);
     return this.todoRepository.save(todo);
   }
@@ -96,17 +107,17 @@ export class TodoService {
 
   async countTodosByStatus() {
     const pendingCount = await this.todoRepository.count({
-      where: { status: StatusEnum.PENDING },
+      where: { status: StatusEnum.PENDING }, 
     });
-
+  
     const inProgressCount = await this.todoRepository.count({
       where: { status: StatusEnum.IN_PROGRESS },
     });
-
+  
     const completedCount = await this.todoRepository.count({
       where: { status: StatusEnum.COMPLETED },
     });
-
+  
     return {
       pending: pendingCount,
       inProgress: inProgressCount,

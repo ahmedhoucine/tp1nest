@@ -1,4 +1,3 @@
-// src/todo/todo.controller.ts
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodoService } from './todo.service';
@@ -21,15 +20,24 @@ export class TodoController {
   ): Promise<{ todos: TodoEntity[]; total: number }> {
     return this.todoService.getTodos(name, description, status, page, limit);
   }
-
-  @Get('all')
-  async getAllTodos(): Promise<TodoEntity[]> {
-    return this.todoService.getAllTodos();
+  
+  @Get('count-by-status')
+  async getCountByStatus() {
+    return this.todoService.countTodosByStatus();
   }
+  @Get('all')
+  async getTodoss(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<{ todos: TodoEntity[]; total: number }> {
+    return this.todoService.getAllTodos( page, limit);
+  }
+
+ 
   
   @Post()
   createTodo(@Body() createTodoDto: CreateTodoDto) {
-    return this.todoService.create(createTodoDto);
+    return this.todoService.addTodo(createTodoDto);
   }
 
   @Get(':id')
@@ -55,9 +63,8 @@ export class TodoController {
     return this.todoService.restoreTodo(id);
   }
 
-  @Get('count-by-status')
-  async getCountByStatus() {
-    return this.todoService.countTodosByStatus();
-  }
+  
+
+  
 
 }
