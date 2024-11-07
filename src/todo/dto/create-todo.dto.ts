@@ -1,4 +1,4 @@
-import { IsString, Length, IsNotEmpty } from 'class-validator';
+import { IsString, Length, IsNotEmpty, IsOptional } from 'class-validator';
 import { StatusEnum } from '../status.enum';
 
 export class CreateTodoDto {
@@ -13,4 +13,6 @@ export class CreateTodoDto {
   description: string;
 
   status?: StatusEnum; 
+  @IsOptional()
+  userId?: any;
 }

@@ -6,6 +6,7 @@ import { TestModule } from './test/test.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoEntity } from './todo/todo.entity';
 import { TodoModule } from './todo/todo.module';
+import { UserModule } from './user/user.module';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { TodoModule } from './todo/todo.module';
       autoLoadEntities:true,
       synchronize: true, 
     }),
+    UserModule,
     
   ],
   controllers: [AppController],
