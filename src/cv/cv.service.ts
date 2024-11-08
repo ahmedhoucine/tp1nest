@@ -20,17 +20,9 @@ export class CvService {
 
   // Create a CV with user relation
   async create(cvData: any): Promise<Cv> {
-    const { userId, ...cvFields } = cvData;
-    // Find user by ID
-    const user = await this.userRepository.findOne({ where: { id: userId } });
-    if (!user) {
-      throw new Error('User not found');
-    }
+    console.log(cvData)
     // Create a CV entity with the associated user
-    const cv = this.cvRepository.create({
-      ...cvFields, // Spread other fields
-      user, // Associate the found user
-    });
+    const cv = this.cvRepository.create(cvData);
     // Save the CV entity and return the saved entity
     return this.cvRepository.save(cv); // Will return a single Cv entity
   }
@@ -54,15 +46,17 @@ export class CvService {
   async addSkillsToCv(cvId: number, skillIds: number[]): Promise<Cv> {
     const cv = await this.cvRepository.findOne({ where: { id: cvId }, relations: ['skills'] });
     if (!cv) throw new Error('CV not found');
-
-    // Validate skill IDs array
-    if (!Array.isArray(skillIds) || skillIds.length === 0) {
-      throw new Error('No skill IDs provided to add to the CV');
-    }
-
+  
     const skills = await this.skillRepository.findByIds(skillIds);
+    
+    // Check that skills have a valid Designation
+    skills.forEach(skill => {
+      if (!skill.Designation) {
+        throw new Error(`Skill with ID ${skill.id} is missing a designation.`);
+      }
+    });
+  
     cv.skills = [...cv.skills, ...skills];
-
     return this.cvRepository.save(cv);
   }
 }

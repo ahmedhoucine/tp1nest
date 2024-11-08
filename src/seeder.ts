@@ -26,12 +26,13 @@ async function bootstrap() {
   }
 
   // Step 2: Create Skills
-  const fakeSkills = Array.from({ length: 5 }).map(() => ({
-    designation: randJobTitle(),
+  const fakeSkills = Array.from({ length: 10 }).map(() => ({
+    Designation: randJobTitle(),
   }));
 
   const skills = [];
   for (const skill of fakeSkills) {
+    console.log(skill)
     const createdSkill = await skillService.create(skill);
     skills.push(createdSkill);
   }
@@ -52,6 +53,7 @@ async function bootstrap() {
       path: `path/to/cv/${user.name}.pdf`,
       userId: user.id, // Pass userId here
     };
+    
 
     // Create CV and associate it with the user
     const createdCv = await cvService.create(fakeCv);

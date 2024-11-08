@@ -8,7 +8,6 @@ import { TodoModule } from './todo/todo.module';
 import { UserModule } from './user/user.module';
 import { CvModule } from './cv/cv.module';
 import { SkillModule } from './skill/skill.module';
-import { SeederService } from './seeder/seeder.service';
 import { User } from './user/user.entity';
 import { Skill } from './skill/entities/skill.entity';
 import { Cv } from './cv/entities/cv.entity';
@@ -34,6 +33,6 @@ import { Cv } from './cv/entities/cv.entity';
     SkillModule,
   ],
   controllers: [AppController],
-  providers: [AppService, SeederService],
+  providers: [AppService],
 })
 export class AppModule {}

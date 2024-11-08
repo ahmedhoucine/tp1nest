@@ -13,6 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
     signOptions: { expiresIn: '60m' }, // optional: configure token expiry
   }),],
   providers: [UserService],
-  controllers: [UserController]
+  controllers: [UserController],
+  exports: [TypeOrmModule],
 })
 export class UserModule {}
