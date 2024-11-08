@@ -14,8 +14,8 @@ export class TodoEntity extends BaseEntity{
   @Column('text')
   description: string;
 
-  @IsOptional()
-  userId?: any;
+  @Column()
+  userId:number;
 
   @Column({
     type: 'enum',
@@ -23,6 +23,7 @@ export class TodoEntity extends BaseEntity{
     default: StatusEnum.PENDING,
   })
   status: StatusEnum;
+  
 
   
  

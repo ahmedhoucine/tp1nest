@@ -1,9 +1,11 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoEntity } from './todo.entity';
 import { TodoController } from './todo.controller';
 import { TodoService } from './todo.service';
 import { AuthMiddleware } from '../auth/auth.middleware';
+import { AuthMiddlewarepost } from '../auth/auth.middlewarepost';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TodoEntity])],
@@ -12,6 +14,12 @@ import { AuthMiddleware } from '../auth/auth.middleware';
 })
 export class TodoModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(TodoController);
+    consumer
+      .apply(AuthMiddlewarepost)
+      .forRoutes({ path: 'todo', method: RequestMethod.POST },
+        { path: 'todo*', method: RequestMethod.PATCH },
+        { path: 'todo*', method: RequestMethod.DELETE } 
+
+      );
   }
 }

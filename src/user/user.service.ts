@@ -14,7 +14,7 @@ export class UserService {
         return this.userRepository.save(data);
     }
 
-    async findOne(where: { email: string }): Promise<User | undefined> {
+    async findOne(where: { id: number }): Promise<User | undefined> {
         return this.userRepository.findOne({ where });
     }
     

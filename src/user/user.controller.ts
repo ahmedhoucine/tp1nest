@@ -33,11 +33,11 @@ export class UserController {
 
     @Post('login')
     async login(
-        @Body('email') email: string,
+        @Body('id') id: number,
         @Body('password') password: string,
         @Res({passthrough: true}) response: Response
     ) {
-        const user = await this.appService.findOne({email});
+        const user = await this.appService.findOne({id});
 
         if (!user) {
             throw new BadRequestException('invalid email');
@@ -53,6 +53,18 @@ export class UserController {
 
        
     }
+    @Post('extract-userid')
+  extractUserId(@Body('token') token: string): string {
+    
+        try {
+          const decoded = this.jwtService.decode(token) as { userId: string };
+          return decoded.userId || null;
+        } catch (error) {
+          console.error('Invalid or expired token', error);
+          return null;
+        }
+      
+  }
 
     @Get('user')
     async user(@Req() request: Request) {
@@ -65,7 +77,7 @@ export class UserController {
                 throw new UnauthorizedException();
             }
 
-            const user = await this.appService.findOne({email: data['email']});
+            const user = await this.appService.findOne({id: data['id']});
 
             const {password, ...result} = user;
 

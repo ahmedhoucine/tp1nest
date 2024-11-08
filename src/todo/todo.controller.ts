@@ -29,19 +29,23 @@ export class TodoController {
   @Get('all')
   async getAllTodos(
     @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('limit') limit: number = 100,
   ): Promise<{ todos: TodoEntity[]; total: number }> {
     return this.todoService.getAllTodos(page, limit);
   }
 
   @Post()
-  async createTodo(
-    @Body() createTodoDto: CreateTodoDto, 
-    @Req() req: Request
-  ) {
-    const userId = req['userId'];
-    return this.todoService.addTodo({ ...createTodoDto, userId });
+async createTodo(
+  @Body() createTodoDto: CreateTodoDto, 
+  @Req() req: Request
+) {
+  const userId = req['userId'];
+  if (!userId) {
+    throw new Error('User ID not found in request');
   }
+  console.log('Creating Todo with userId:', userId);
+  return this.todoService.addTodo({ ...createTodoDto, userId });
+}
 
   @Get(':id')
   async getTodoById(@Param('id', ParseIntPipe) id: number): Promise<TodoEntity> {
@@ -55,6 +59,7 @@ export class TodoController {
     @Req() req: Request
   ) {
     const userId = req['userId'];
+    console.log(userId)
     const todo = await this.todoService.getTodoById(id);
 
     if (!todo) {
@@ -62,6 +67,8 @@ export class TodoController {
     }
 
     if (todo.userId !== userId) {
+      console.log(todo)
+      console.log(todo.userId)
       throw new ForbiddenException('You are not authorized to update this todo');
     }
 
