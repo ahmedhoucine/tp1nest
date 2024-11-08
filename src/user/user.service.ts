@@ -13,7 +13,9 @@ export class UserService {
     async create(data: any): Promise<User> {
         return this.userRepository.save(data);
     }
-
+    async findAll(): Promise<User[]> {
+        return this.userRepository.find();
+      }
     async findOne(where: { id: number }): Promise<User | undefined> {
         return this.userRepository.findOne({ where });
     }

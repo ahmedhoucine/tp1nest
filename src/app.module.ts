@@ -7,25 +7,34 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoEntity } from './todo/todo.entity';
 import { TodoModule } from './todo/todo.module';
 import { UserModule } from './user/user.module';
-
+import { CvModule } from './cv/cv.module';
+import { SkillModule } from './skill/skill.module';
+import { SeederService } from './seeder/seeder.service';
+import { User } from './user/user.entity';
+import { Skill } from './skill/entities/skill.entity';
+import { Cv } from './cv/entities/cv.entity';
 
 @Module({
-  imports: [CommonModule,TestModule,TodoModule,
+  imports: [
+    CommonModule,
+    TestModule,
+    TodoModule,
     TypeOrmModule.forRoot({
-      type: 'postgres', 
+      type: 'postgres',
       host: 'localhost',
       port: 5432,
       username: 'postgres',
       password: 'serpent00',
       database: 'todo',
-      autoLoadEntities:true,
-      synchronize: true, 
+      autoLoadEntities: true, // This will automatically load entities
+      synchronize: true,
     }),
+    TypeOrmModule.forFeature([User, Cv, Skill]),  // Add this line to load repositories
     UserModule,
-    
-    
+    CvModule,
+    SkillModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeederService],
 })
 export class AppModule {}

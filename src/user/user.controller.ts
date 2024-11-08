@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import {JwtService} from "@nestjs/jwt";
 import {Response, Request} from 'express';
+import { User } from './user.entity';
 
 @Controller('api')
 export class UserController {
@@ -11,7 +12,10 @@ export class UserController {
         private jwtService: JwtService
     ) {
     }
-
+    @Get('all')
+    async getAllUsers(): Promise<User[]> {
+        return this.appService.findAll();
+      }
     @Post('register')
     async register(
         @Body('name') name: string,
