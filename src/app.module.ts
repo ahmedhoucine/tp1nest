@@ -28,7 +28,7 @@ import { Cv } from './cv/entities/cv.entity';
       autoLoadEntities: true, // This will automatically load entities
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Cv, Skill]),  // Add this line to load repositories
+    TypeOrmModule.forFeature([User, Cv, Skill]),  
     UserModule,
     CvModule,
     SkillModule,
