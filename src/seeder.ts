@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { UserService } from './user/user.service';
 import { randFullName, randEmail, randPassword } from '@ngneat/falso';
+import { UuidService } from './common/uuid/uuid.service';
 
 async function bootstrap() {
   // Crée l'application sans contexte Web

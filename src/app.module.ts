@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { CommonModule } from './common/common.module';
 import { TestModule } from './test/test.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TodoEntity } from './todo/todo.entity';
 import { TodoModule } from './todo/todo.module';
 import { UserModule } from './user/user.module';
 import { CvModule } from './cv/cv.module';
