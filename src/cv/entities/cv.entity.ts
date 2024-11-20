@@ -26,8 +26,8 @@ export class Cv {
   @Column()
   path: string;
 
-  @ManyToOne(() => User, (userId) => userId.cvs)
-  userId: number;
+  @ManyToOne(() => User, (user) => user.cvs)
+  user: User;
 
   @ManyToMany(() => Skill, (skill) => skill.cvs)
   @JoinTable()

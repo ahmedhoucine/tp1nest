@@ -37,10 +37,7 @@ async function bootstrap() {
     skills.push(createdSkill);
   }
 
-  // Ensure skills were created before continuing
-  if (skills.length === 0) {
-    throw new Error('No skills were created');
-  }
+  
 
   // Step 3: Create CVs and Assign Skills
   for (const user of users) {
@@ -51,7 +48,7 @@ async function bootstrap() {
       Cin: `CIN${randNumber({ min: 100000, max: 999999 })}`,
       Job: randJobTitle(),
       path: `path/to/cv/${user.name}.pdf`,
-      userId: user.id, // Pass userId here
+      user: user, 
     };
     
 

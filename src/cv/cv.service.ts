@@ -21,13 +21,18 @@ export class CvService {
   // Create a CV with user relation
   async create(cvData: any): Promise<Cv> {
     console.log(cvData)
-    // Create a CV entity with the associated user
-    const cv = this.cvRepository.create(cvData);
-    // Save the CV entity and return the saved entity
-    return this.cvRepository.save(cv); // Will return a single Cv entity
-  }
+    const user = await this.userRepository.findOne({
+      where: { id: cvData.user.id }, // Correct way to specify the search condition
+  }); // Fetch user by ID
+    if (!user) {
+        throw new Error('User not found');
+    }
+    const save = this.cvRepository.create({ ...cvData, user });
+    console.log(save);
+    return this.cvRepository.save(save);
+}
   findAll() {
-    return `This action returns all cv`;
+    return this.cvRepository.find();
   }
 
   findOne(id: number) {
